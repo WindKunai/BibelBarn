@@ -1,9 +1,10 @@
 /* styles.css */
 
 /* Reset styles */
-body, h1, h2, p, ul, li {
+body, h1, h2, p, ul, li, table, th, td {
     margin: 0;
     padding: 0;
+    border: 0;
 }
 
 /* Global styles */
@@ -18,6 +19,7 @@ header {
     background-color: #007bff;
     color: #fff;
     padding: 20px;
+    text-align: center;
 }
 
 nav ul {
@@ -54,9 +56,80 @@ footer {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
 }
 
 #index-content h2 {
     color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+/* styles.css */
+
+/* Styles for Login and Registration Forms */
+#login-form-container, #register-form-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#login-form-container h3, #register-form-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#login-form-container form input, #register-form-container form input, #register-form-container form button, #register-form-container label {
+    width: 100%;
     margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#register-form-container label {
+    display: flex; /* Change display to flex */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 10px;
+}
+
+#register-form-container label input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+    width: auto; /* Adjust width */
+}
+
+#register-form-container p, #login-form-container p {
+    text-align: center;
+    margin-top: 20px;
 }

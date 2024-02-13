@@ -1,0 +1,103 @@
+<!-- books.html -->
+{% extends "base.html" %}
+
+{% block title %}Books - Rent what your heart desires!{% endblock %}
+
+{% block content %}
+<h2>Explore our collection of books</h2>
+
+<input type="text" id="searchInput" onkeyup="searchBooks()" placeholder="Search for books..." value="{{ searchQuery }}">
+
+<select id="sortBy" onchange="sortBooks()">
+  <option value="">Sort by...</option>
+  <option value="title">Title (A-Z)</option>
+  <option value="author">Author Last Name (A-Z)</option>
+</select>
+
+<table id="booksTable">
+  <tr>
+    <th>Book Name</th>
+    <th>Author</th>
+    <th>Publishing Year</th>
+    <th>Available Copies</th>
+  </tr>
+  {% for book in books %}
+  <tr>
+    <td>{{ book[1] }}</td>
+    <td>{{ book[2] }}</td>
+    <td>{{ book[3] }}</td>
+    <td>{{ book[4] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<script>
+// Function to save search query to local storage
+function saveSearchQuery() {
+  var input = document.getElementById("searchInput");
+  localStorage.setItem('searchQuery', input.value);
+}
+
+// Function to retrieve search query from local storage
+function getSearchQuery() {
+  return localStorage.getItem('searchQuery') || '';
+}
+
+// Function to filter books based on search query
+function filterBooks() {
+  var searchQuery = getSearchQuery().toUpperCase();
+  var table = document.getElementById("booksTable");
+  var tr = table.getElementsByTagName("tr");
+  for (var i = 0; i < tr.length; i++) {
+    var td = tr[i].getElementsByTagName("td");
+    var matchFound = false;
+    for (var j = 0; j < td.length; j++) {
+      var txtValue = td[j].textContent || td[j].innerText;
+      if (txtValue.toUpperCase().indexOf(searchQuery) > -1) {
+        matchFound = true;
+        break;
+      }
+    }
+    if (matchFound) {
+      tr[i].style.display = "";
+    } else {
+      tr[i].style.display = "none";
+    }
+  }
+}
+
+// Function to sort books based on selected criteria
+function sortBooks() {
+  var sortBy = document.getElementById("sortBy").value;
+  var table = document.getElementById("booksTable");
+  var rows = table.rows;
+  var sortedRows = Array.from(rows).slice(1); // Exclude header row from sorting
+  if (sortBy === "title") {
+    sortedRows.sort((a, b) => a.cells[0].textContent.localeCompare(b.cells[0].textContent));
+  } else if (sortBy === "author") {
+    sortedRows.sort((a, b) => {
+      var aAuthor = a.cells[1].textContent.split(' ').slice(-1)[0]; // Get last name of author
+      var bAuthor = b.cells[1].textContent.split(' ').slice(-1)[0]; // Get last name of author
+      return aAuthor.localeCompare(bAuthor);
+    });
+  }
+  // Reorder rows in table
+  for (var i = 0; i < sortedRows.length; i++) {
+    table.appendChild(sortedRows[i]);
+  }
+}
+
+// Function to perform search and sort when page loads
+window.onload = function() {
+  document.getElementById("searchInput").value = getSearchQuery();
+  filterBooks();
+}
+
+// Function to update search results on keyup
+function searchBooks() {
+  saveSearchQuery();
+  filterBooks();
+}
+</script>
+
+{% endblock %}
