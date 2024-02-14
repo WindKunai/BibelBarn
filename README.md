@@ -9,3 +9,6 @@ Bonus Features
 - Upload Profile Image
 - Bio
 - Show what books they have and how long they have left of it
+- Security?
+- Have a queue you can enter for a book?
+- Admin page, with overview of users, ability to delete users.
