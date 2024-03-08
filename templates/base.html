@@ -6,29 +6,36 @@
     <title>{% block title %}Library Booking System{% endblock %}</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link rel="stylesheet" href="styles.css"> <!-- Add custom CSS file -->
 </head>
 <body>
     <header>
         <h1>Library Booking System</h1>
         <nav>
             <ul>
-                <li id="toolbar"><a href="/"><span class="material-symbols-outlined">
-                    home
-                    </span></a></li>
-                <li><a href="/books"><span class="material-symbols-outlined">
-                    library_books
-                    </span></a></li>
-                <li><a href="/rooms"><span class="material-symbols-outlined">
-                    calendar_month
-                    </span></a></li>
+                <li id="toolbar"><a href="/" class="icon-container">
+                    <span class="material-symbols-outlined outlined-icon">home</span>
+                    <span class="material-symbols-outlined filled-icon">home</span>
+                </a></li>
+                <li><a href="/books" class="icon-container">
+                    <span class="material-symbols-outlined outlined-icon">library_books</span>
+                    <span class="material-symbols-outlined filled-icon">library_books</span>
+                </a></li>
+                <li><a href="/rooms" class="icon-container">
+                    <span class="material-symbols-outlined outlined-icon">calendar_month</span>
+                    <span class="material-symbols-outlined filled-icon">calendar_month</span>
+                    </a></li>
                 {% if username %}
-                
-                <li><a href="/checkout"><span class="material-symbols-outlined">
-                    shopping_cart_checkout
-                    </span></a></li>
-                <li><a href="/account/{{ userID }}"><span class="material-symbols-outlined">
-                    person
-                    </span></a></li>
+                <li><a href="/checkout" class="icon-container">
+                    <span class="material-symbols-outlined outlined-icon">shopping_cart_checkout</span>
+                    <span class="material-symbols-outlined filled-icon">shopping_cart_checkout</span>
+                    </a></li>
+                <li><a href="/account/{{ userID }}" class="icon-container">
+                    <span class="material-symbols-outlined outlined-icon">person</span>
+                    <span class="material-symbols-outlined filled-icon">person</span>
+                    </a></li>
                 {% else %}
                 <li><a href="/login">Login/Register</a></li>
                 {% endif %}

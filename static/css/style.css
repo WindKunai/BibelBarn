@@ -8,15 +8,46 @@ body, h1, h2, p, ul, li, table, th, td {
 }
 /* Toolbar icons*/
 
-.material-icons {
-    fill: transparent;
-    transition: fill 0.3s ease; /* Add transition for smooth effect */
+/* Styles for the combined squared area and icon appearance */
+.icon-container {
+    display: inline-block;
+    width: 1em; /* Adjust width as needed */
+    height: 1em; /* Adjust height as needed */
+    margin-right: 10px; /* Add spacing between icon container and title */
+    position: relative;
 }
 
-/* Change the fill color of the icons to a specific color on hover */
-.material-icons:hover {
-    fill: #000; /* Change to the desired color */
+/* Styles for the outlined icon */
+.outlined-icon {
+    position: absolute;
+    opacity: 1;
+    top: 0;
+    left: 0;
+    fill: transparent;
+    transition: fill 0.3s ease;
 }
+
+/* Styles for the filled icon */
+.filled-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    fill: transparent;
+    transition: fill 0.3s ease;
+    opacity: 0; /* Initially hide the filled icon */
+}
+
+/* Change appearance when hovered */
+.outlined-icon:hover {
+    opacity: 0;
+}
+
+/* Change appearance when hovered */
+.filled-icon:hover {
+    fill: #000; /* Change to the desired color */
+    opacity: 1; /* Show the filled icon */
+}
+
 
 /* Global styles */
 body {
