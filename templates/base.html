@@ -5,18 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Library Booking System{% endblock %}</title>
     <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
     <header>
         <h1>Library Booking System</h1>
         <nav>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/books">Books</a></li>
-                <li><a href="/rooms">Rooms</a></li>
-                <li>{% if username %}<a href="/account">{{ username }}</a>{% else %}<a href="/login">Login/Register</a>{% endif %}</li>
+                <li id="toolbar"><a href="/"><span class="material-symbols-outlined">
+                    home
+                    </span></a></li>
+                <li><a href="/books"><span class="material-symbols-outlined">
+                    library_books
+                    </span></a></li>
+                <li><a href="/rooms"><span class="material-symbols-outlined">
+                    calendar_month
+                    </span></a></li>
+                {% if username %}
+                
+                <li><a href="/checkout"><span class="material-symbols-outlined">
+                    shopping_cart_checkout
+                    </span></a></li>
+                <li><a href="/account/{{ userID }}"><span class="material-symbols-outlined">
+                    person
+                    </span></a></li>
+                {% else %}
+                <li><a href="/login">Login/Register</a></li>
+                {% endif %}
             </ul>
         </nav>
+        {% if username %}
+        <div id="cart">
+            <!-- Display shopping cart content here -->
+        </div>
+        {% endif %}
     </header>
 
     <main>

@@ -3,7 +3,18 @@
 {% block title %}Account - Library Booking System{% endblock %}
 
 {% block content %}
-<h2>Welcome to your Page!</h2>
-<p>Explore the books you have lent and the date of which they need to be returned within.</p>
+<h2>Welcome to your Page, {{ username }}!</h2>
+<h3>Borrow History:</h3>
+<ul>
+  {% for record in borrow_history %}
+    <li>{{ record.BookName }} - Date: {{ record.Date }}, Action: {{ record.Action }}</li>
+  {% endfor %}
+</ul>
 
+<h3>Books Yet to be Delivered:</h3>
+<ul>
+  {% for book in books_to_deliver %}
+    <li>{{ book.BookName }} - Rental Date: {{ book.RentalDate }}</li>
+  {% endfor %}
+</ul>
 {% endblock %}
