@@ -20,6 +20,7 @@
     <th>Author</th>
     <th>Publishing Year</th>
     <th>Available Copies</th>
+    <th>Action</th> <!-- New column for adding to cart -->
   </tr>
   {% for book in books %}
   <tr>
@@ -27,11 +28,18 @@
     <td>{{ book[2] }}</td>
     <td>{{ book[3] }}</td>
     <td>{{ book[4] }}</td>
+    <td><button onclick="addToCart('{{ book[0] }}')">Add to Cart</button></td> <!-- Button to add book to cart -->
   </tr>
   {% endfor %}
 </table>
 
 <script>
+// Function to add book to cart
+function addToCart(bookID) {
+  // Perform any necessary logic to add the book to the shopping cart
+  alert("Book added to cart: " + bookID);
+}
+
 // Function to save search query to local storage
 function saveSearchQuery() {
   var input = document.getElementById("searchInput");

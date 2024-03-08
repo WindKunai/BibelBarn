@@ -6,6 +6,17 @@ body, h1, h2, p, ul, li, table, th, td {
     padding: 0;
     border: 0;
 }
+/* Toolbar icons*/
+
+.material-icons {
+    fill: transparent;
+    transition: fill 0.3s ease; /* Add transition for smooth effect */
+}
+
+/* Change the fill color of the icons to a specific color on hover */
+.material-icons:hover {
+    fill: #000; /* Change to the desired color */
+}
 
 /* Global styles */
 body {
