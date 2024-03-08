@@ -1,4 +1,20 @@
 import sqlite3
+from sqlite3 import Error
+
+def drop_tables(conn):
+    c = conn.cursor()
+    try:
+        c.execute('''DROP TABLE Users''')
+        c.execute('''DROP TABLE Books''')
+        c.execute('''DROP TABLE Rentals''')
+        c.execute('''DROP TABLE BorrowHistory''')
+    except Error as err:
+        print("Error: {}", format(err))
+    else:
+        print("Tables dropped.")
+    finally:
+        c.close()
+
 
 def create_database():
     conn = sqlite3.connect('BookLibrary.db')
@@ -7,8 +23,9 @@ def create_database():
     # Create Users table
     c.execute('''CREATE TABLE IF NOT EXISTS Users
                  (UserID INTEGER PRIMARY KEY,
-                 Username TEXT NOT NULL,
+                 Username TEXT UNIQUE NOT NULL,
                  Password TEXT NOT NULL,
+                 Role TEXT,
                  Email TEXT NOT NULL,
                  TotalBooksBorrowed INTEGER DEFAULT 0)''')
 
@@ -45,12 +62,12 @@ def create_database():
 
     # Add example users
     users = [
-        ('Alice', 'password1', 'alice@example.com'),
-        ('Bob', 'password2', 'bob@example.com'),
-        ('Charlie', 'password3', 'charlie@example.com'),
-        ('Diana', 'password4', 'diana@example.com')
+        ('Alice', 'password1', 'alice@example.com', 'Admin'),
+        ('Bob', 'password2', 'bob@example.com', 'User'),
+        ('Charlie', 'password3', 'charlie@example.com', 'User'),
+        ('Diana', 'password4', 'diana@example.com', 'User')
     ]
-    c.executemany('INSERT INTO Users (Username, Password, Email) VALUES (?, ?, ?)', users)
+    c.executemany('INSERT INTO Users (Username, Password, Email, Role) VALUES (?, ?, ?, ?)', users)
 
     # Add example books
     books = [
@@ -64,6 +81,46 @@ def create_database():
     conn.commit()
     conn.close()
 
+def add_user(conn, username, password, email, role="user"):
+    c = conn.cursor()
+    try:
+        sql = ("INSERT INTO Users (Username, Password, Email, Role) VALUES (?,?,?,?)")
+        c.execute(sql, (username, password, email, role))
+        conn.commit()
+    except sqlite3.Error as err:
+        print("Error: {}".format(err))
+        return -1
+    else:
+        print("User {} created with id {}.".format(username, c.lastrowid))
+        return c.lastrowid
+    finally:
+        c.close()
+
+def get_user_by_name(conn, username):
+    c = conn.cursor()
+    try:
+        sql = ("SELECT UserID, Username, Role FROM Users WHERE Username = ?")
+        c.execute(sql, (username,))
+        for row in c:
+            (id, name, role) = row
+            return {
+                "Username": name,
+                "UserID": id, 
+                "Role": role
+            }
+        else:
+            return {
+                "Username": name,
+                "UserID": None, 
+                "Role": None
+            }
+    except sqlite3.Error as err:
+        print("Error. {}".format(err))
+    finally:
+        c.close()
+
 if __name__ == "__main__":
+    conn = sqlite3.connect('BookLibrary.db')
+    drop_tables(conn)
     create_database()
 
