@@ -36,10 +36,11 @@ def teardown_db(error):
 
 @app.route('/')
 def index():
+    return render_template('index.html', username=session.get("username", None), role=session.get("role", None))
     #if session["username"]:
         #if session["username"][0] == "admin":
-            return (inject_user("index.html", books=None, borrow_history=None, books_to_deliver=None))
-            #return render_template('index.html', username="David", admin="admin", user_id=1)
+            #return (inject_user("index.html", books=None, borrow_history=None, books_to_deliver=None))
+            #return render_template('index.html', username="David", role="admin", user_id=1)
         #else:
         #    return render_template('index.html', username=session["username"])
     #else:
@@ -89,7 +90,7 @@ def login():
             if not name or not password:
                 flash("Username and/or Password cannot be empty")
             db = get_db()
-            ok = add_user(db, name, generate_password_hash(password))
+            ok = add_user(db, name, generate_password_hash(password), email=email)
             if ok == -1:
                 flash("Username alerady in use")
             return redirect(url_for("login"))
@@ -99,12 +100,12 @@ def login():
 def ToS():
     return render_template('ToS.html')
 
-
-@app.route('/account/<int:UserID>')
-def account(UserID):
-    conn = sqlite3.connect('BookLibrary.db')
-    c = conn.cursor()
-
+@app.route('/account')
+def account():
+    db = get_db()
+    c = db.cursor()
+    username = session.get("username")
+    UserID = get_userid(db, username)
     # Fetch transaction history (borrow history) for the user
     c.execute('''SELECT BookID, BookName, Date, Action FROM BorrowHistory WHERE UserID = ?''', (UserID,))
     borrow_history = c.fetchall()
@@ -116,10 +117,11 @@ def account(UserID):
                  WHERE Rentals.UserID = ? AND Rentals.ReturnDate IS NULL''', (UserID,))
     books_to_deliver = c.fetchall()
 
-    conn.close()
-    return inject_user("account.html",None,borrow_history,books_to_deliver)
-    #return render_template('account.html', borrow_history=borrow_history, books_to_deliver=books_to_deliver)
+    db.close()
+    #return inject_user("account.html",None,borrow_history,books_to_deliver)
+    return render_template('account.html',username=username, borrow_history=borrow_history, books_to_deliver=books_to_deliver)
 
+#Logout button
 @app.route("/logout")
 def logout():
     session.pop("username")

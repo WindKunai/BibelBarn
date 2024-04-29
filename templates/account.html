@@ -4,6 +4,7 @@
 
 {% block content %}
 <h2>Welcome to your Page, {{ username }}!</h2>
+<a href="{{ url_for('logout') }}">logout</a>
 <h3>Borrow History:</h3>
 <ul>
   {% for record in borrow_history %}

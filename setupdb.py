@@ -96,6 +96,21 @@ def add_user(conn, username, password, email, role="user"):
     finally:
         c.close()
 
+def get_userid(conn, username):
+    c = conn.cursor()
+    try:
+        sql = ("SELECT UserID FROM Users WHERE Username = ?")
+        c.execute(sql, (username,))
+        id = c.fetchone()
+        if id:
+            return id[0]
+        else:
+            return -1
+    except sqlite3.Error as err:
+        print("Error: {}".format(err))
+    finally:
+        c.close()
+        
 def get_user_by_name(conn, username):
     c = conn.cursor()
     try:
